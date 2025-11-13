@@ -63,16 +63,71 @@
         </div>
     </div>
     <script>
-        function newMessage(text) {
+        const me = "skz";
+        function newMessage({id, message, time, author}) {
             let div = document.createElement('div');
-            div.className = 'message';
-            div.textContent = text;
+            div.id = 'message-'.id;
+            if(author === undefined || author === me) {
+                div.className = 'message me';
+            } else {
+                div.className = 'message friend';
+            }
+            let authorSpan;
+            if(author !== me){
+                authorSpan = document.createElement("span");
+                authorSpan.className = 'author';
+                authorSpan.textContent = author;
+                div.appendChild(authorSpan);
+            }
+
+            let textSpan;
+                textSpan = document.createElement("span");
+                textSpan.className = 'text';
+                textSpan.textContent = text;
+                div.appendChild(textSpan);
+            
+                let timeSpan;
+                timeSpan = document.createElement("span");
+                textSpan.className = 'time';
+                let date = new Date(time* 1000);
+                timeSpan.textContent = `${date.getHours()}:${date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()}
+                ${date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds()}`;
+                div.appendChild(timeSpan);
+            
+
             document.querySelector("#chat").appendChild(div);
+
+            window.scrollTo({
+                top: Math.ceil(document.querySelector('#chat').scrollHeight),
+                behavior: 'smooth',
+            })
         }
 
-        for (let i = 0; i < 25; i++) {
-            newMessage(`Текстовое сообщение №${i}`);
+        function sendMessage (e) {
+            let message = document.querySelector("#message");
+            let text = message.value;
+            if (text.trim().length > 0){
+                newMessage(text);
+                message.value = "";
+            }
+            
         }
+
+        function sendMessageByEnter (e) {
+            if (e.code == "Enter"){
+                sendMessage();
+            }
+
+        }
+
+        window.onload = () => {
+            document.querySelector("#send_message").onclick = sendMessage;
+            document.querySelector("#message").onkeyup = sendMessageByEnter;
+            for(let i=0;i<3;i++){
+                newMessage({id:"33"+i,message: "Сообщение №"+i, time:1929292,author:"hohoho"});
+            }
+        }
+        
     </script>
 </body>
 </html>
