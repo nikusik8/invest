@@ -5,8 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        html, body, #ror {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        table {
+            margin: 10px;
+        }
+        table
+    </style>
 </head>
 <body>
-    Здесь будет программа
+    <div id = "ror"></div>
+    <script>
+        let table = '<table>';
+            table += `<thead><tr>
+                <th>Дата начала периода</th>
+                <th>Сумма в дату начала периода</th>
+                <th>Дата окончания периода</th>
+                <th>Сумма в дату окончания периода</th>
+                <th>Доходность</th>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                </tr>`;
+                table += '</tbody></table>';
+                table += `<table><thead><tr>
+                    <th>Тип операции</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+
+                </tr></thead><tbody>`;
+            for (let i=0; i< cashFlows.length; i++){
+                table += `</tbody></table>`;
+                document.querySelector('#ror').innerHtml = table;
+            }
+
+   </script>
 </body>
 </html>
