@@ -85,8 +85,9 @@
         </div>
     </div>
     <script>
-        const me = "fox";
+        const me = "Оксана";
         function newMessage({id, message, time, author}) {
+            console.log(id, message, time, author)
             let div = document.createElement('div');
             div.id = 'message-'+id;
             if(author === undefined || author === me) {
@@ -148,11 +149,31 @@
             localStorage.setItem('time', Math.floor(Date.now()/1000));
         }
 
+
+function sendMessageToServer(message,author){
+    let xmlhttp = new XMLHttpRequest();
+            const url = 'https://chat.9pr.ru/message';
+            xmlhttp.open('POST',url);
+            xmlhttp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify({author,message}));
+            xmlhttp.onload = () => {
+                let data = xmlhttp.responseText;
+                data = JSON.parse(data);
+                if(data.error != undefined){
+                    console.error(data.error)
+                }else{
+                    console.table(data)
+                    newMessage({id: data.id, message, time: Math.floor(Date.now()/1000), author});
+                }
+            }
+}
+
+
         function sendMessage (e) {
             let message = document.querySelector("#message");
             let text = message.value;
             if (text.trim().length > 0){
-                newMessage(text);
+                sendMessageToServer(text, me);
                 message.value = "";
             }
             
